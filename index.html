@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TETSUNARU — Ege Demir Ünal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
+<style>
+/* ── VARIABLES ─────────────────────────── */
+:root {
+  --bg:        #0a0808;
+  --bg2:       #111010;
+  --bg3:       #181414;
+  --bg4:       #1f1b1b;
+  --text:      #e2d9d0;
+  --text2:     #b5a89f;
+  --muted:     #6a5f5a;
+  --red:       #8b1a1a;
+  --red-light: rgba(139,26,26,0.15);
+  --border:    rgba(139,26,26,0.14);
+  --sidebar-w: 260px;
+
+  --title: 'Playfair Display', Georgia, serif;
+  --body:  'Lora', Georgia, serif;
+  --mono:  'Space Mono', 'Courier New', monospace;
+  --jp:    'Noto Serif JP', serif;
+}
+
+/* ── RESET ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--red); }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; background: none; border: none; font-family: inherit; color: inherit; }
+
+/* ── SIDEBAR ────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sid-brand {
+  padding: 40px 28px 32px;
+  border-bottom: 1px solid var(--border);
+}
+.sid-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+.sid-name {
+  font-family: var(--title);
+  font-size: 1.45rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text);
+}
+.sid-handle {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  margin-top: 6px;
+  letter-spacing: 0.1em;
+}
+.sid-jp {
+  font-family: var(--jp);
+  font-size: 0.7rem;
+  font-weight: 200;
+  color: var(--muted);
+  margin-top: 8px;
+  letter-spacing: 0.2em;
+}
+
+.sid-nav { padding: 24px 0; flex: 1; }
+.sid-group { margin-bottom: 20px; }
+.sid-group-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 28px 8px;
+}
+.sid-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 28px;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--muted);
+  border-left: 2px solid transparent;
+  transition: all 0.18s;
+}
+.sid-btn:hover { color: var(--text); background: var(--red-light); }
+.sid-btn.on {
+  color: var(--text);
+  border-left-color: var(--red);
+  background: rgba(139,26,26,0.07);
+}
+
+.sid-archive { padding: 0 0 24px; border-top: 1px solid var(--border); padding-top: 20px; }
+.sid-archive-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 28px 10px;
+}
+.sid-years { padding: 0 28px; }
+.sid-year {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(139,26,26,0.07);
+  cursor: pointer;
+  transition: color 0.18s;
+}
+.sid-year:hover .sy-n { color: var(--text); }
+.sy-n {
+  font-family: var(--title);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--muted);
+  transition: color 0.18s;
+}
+.sy-c {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.sid-foot {
+  padding: 20px 28px;
+  border-top: 1px solid var(--border);
+}
+.sid-foot p {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+.sid-links { display: flex; gap: 14px; flex-wrap: wrap; }
+.sid-links a {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.18s;
+}
+.sid-links a:hover { color: var(--red); }
+
+/* ── MAIN AREA ──────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  /* ensure content fills right side */
+  width: calc(100% - var(--sidebar-w));
+}
+
+/* ── PAGE SWITCHING ─────────────────────── */
+.page { display: none; }
+.page.active { display: block; animation: fadein 0.35s ease; }
+@keyframes fadein { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+/* ── PAGE HEADER ────────────────────────── */
+.ph {
+  padding: 72px 64px 52px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.ph-watermark {
+  position: absolute;
+  right: 48px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--jp);
+  font-size: 110px;
+  font-weight: 200;
+  color: rgba(139,26,26,0.04);
+  letter-spacing: 0.3em;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+.ph-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.ph-title {
+  font-family: var(--title);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.ph-sub {
+  margin-top: 14px;
+  font-family: var(--body);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text2);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/* ── HOME ───────────────────────────────── */
+#pg-home.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 64px;
+  position: relative;
+  overflow: hidden;
+}
+.home-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(139,26,26,0.055) 0%, transparent 65%);
+  right: -100px; top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.home-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 24px;
+}
+.home-name {
+  font-family: var(--title);
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.home-name .dim { color: var(--text2); }
+.home-name .acc { color: var(--red); font-style: italic; }
+.home-jp {
+  font-family: var(--jp);
+  font-size: 0.85rem;
+  font-weight: 200;
+  color: var(--muted);
+  letter-spacing: 0.4em;
+  margin-top: 20px;
+}
+.home-rule {
+  width: 48px; height: 1px;
+  background: var(--red);
+  opacity: 0.45;
+  margin: 36px 0;
+}
+.home-bio {
+  max-width: 420px;
+  font-family: var(--body);
+  font-size: 1.05rem;
+  color: var(--text2);
+  line-height: 1.9;
+}
+.home-bio strong { color: var(--text); font-weight: 500; }
+.home-btns {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px;
+}
+.hbtn {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 11px 26px;
+  transition: all 0.18s;
+}
+.hbtn-p { background: var(--red); color: var(--text); }
+.hbtn-p:hover { background: #a82020; }
+.hbtn-g { border: 1px solid var(--border); color: var(--muted); }
+.hbtn-g:hover { border-color: rgba(139,26,26,0.5); color: var(--text); }
+.home-stats {
+  display: flex; gap: 52px; margin-top: 68px;
+  border-top: 1px solid var(--border); padding-top: 32px;
+}
+.hstat-n {
+  font-family: var(--title);
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+}
+.hstat-l {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* ── CHRONICLE ──────────────────────────── */
+.chron-toolbar {
+  padding: 24px 64px;
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.cpill {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: all 0.18s;
+}
+.cpill:hover { color: var(--text); border-color: rgba(139,26,26,0.35); }
+.cpill.on { background: var(--red); color: var(--text); border-color: var(--red); }
+
+.chron-feed { padding: 0 64px 80px; max-width: 860px; }
+
+.ce {
+  padding: 52px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ce:last-child { border-bottom: none; }
+.ce-top {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+}
+.ce-date {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+.ce-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+.ce-cat {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  padding: 3px 10px;
+  border: 1px solid rgba(139,26,26,0.25);
+}
+.ce-title {
+  font-family: var(--title);
+  font-size: 1.65rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.ce-body {
+  font-family: var(--body);
+  font-size: 1rem;
+  color: var(--text2);
+  line-height: 1.85;
+  margin-bottom: 24px;
+}
+/* image grids */
+.ce-imgs { gap: 3px; }
+.ce-imgs.g1 { display: block; }
+.ce-imgs.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.ce-imgs.g3 { display: grid; grid-template-columns: 2fr 1fr; gap: 3px; }
+.ce-imgs.g3 .ci:first-child { grid-row: span 2; }
+.ce-imgs.gm { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; }
+.ci { overflow: hidden; cursor: pointer; }
+.ci img { width: 100%; display: block; transition: transform 0.45s ease, filter 0.3s; filter: saturate(0.8); }
+.ci:hover img { transform: scale(1.03); filter: saturate(1.1); }
+.ce-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.ce-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(139,26,26,0.2);
+  padding-bottom: 1px;
+  letter-spacing: 0.05em;
+}
+
+/* ── PORTFOLIO ──────────────────────────── */
+.port-ctrl {
+  padding: 24px 64px;
+  border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.year-row { display: flex; gap: 0; }
+.yr-btn {
+  font-family: var(--title);
+  font-size: 1.35rem;
+  font-weight: 400;
+  padding: 8px 28px 8px 0;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.18s;
+}
+.yr-btn:hover { color: var(--text2); }
+.yr-btn.on { color: var(--text); border-bottom-color: var(--red); }
+.cat-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.cat-btn {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: all 0.18s;
+}
+.cat-btn:hover { color: var(--text2); }
+.cat-btn.on { background: var(--red-light); border-color: rgba(139,26,26,0.4); color: var(--text); }
+
+.port-grid {
+  padding: 48px 64px 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 3px;
+}
+.pcard {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg3);
+  cursor: pointer;
+  aspect-ratio: 3/4;
+}
+.pcard img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease, filter 0.3s;
+  filter: brightness(0.68) saturate(0.8);
+}
+.pcard:hover img { transform: scale(1.04); filter: brightness(0.85) saturate(1.05); }
+.pcard-yr {
+  position: absolute; top: 12px; left: 12px;
+  font-family: var(--mono); font-size: 0.6rem;
+  background: rgba(10,8,8,0.78); color: var(--muted);
+  padding: 3px 9px; letter-spacing: 0.1em;
+}
+.pcard-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 24px 20px 18px;
+  background: linear-gradient(to top, rgba(10,8,8,0.94) 0%, transparent 100%);
+  transform: translateY(6px); opacity: 0;
+  transition: all 0.28s;
+}
+.pcard:hover .pcard-info { transform: translateY(0); opacity: 1; }
+.pcard-cat {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 6px;
+}
+.pcard-title {
+  font-family: var(--title);
+  font-size: 1.3rem; font-weight: 500;
+  color: var(--text); line-height: 1.1;
+}
+.pcard-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 9px; }
+.pcard-tag {
+  font-family: var(--mono); font-size: 0.55rem;
+  padding: 2px 7px; background: rgba(10,8,8,0.6); color: var(--muted);
+}
+
+/* ── SKETCHES ───────────────────────────── */
+.sk-ctrl {
+  padding: 24px 64px;
+  border-bottom: 1px solid var(--border);
+}
+.sk-masonry {
+  padding: 3px 3px 80px;
+  columns: 3 220px; gap: 3px;
+}
+.sk-item {
+  break-inside: avoid; margin-bottom: 3px;
+  cursor: pointer; overflow: hidden; position: relative;
+}
+.sk-item img {
+  width: 100%; display: block;
+  transition: filter 0.3s; filter: saturate(0.78);
+}
+.sk-item:hover img { filter: saturate(1.05); }
+.sk-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 12px 9px;
+  background: linear-gradient(to top, rgba(10,8,8,0.88), transparent);
+  font-family: var(--mono); font-size: 0.6rem;
+  color: var(--text2); letter-spacing: 0.08em;
+  opacity: 0; transition: opacity 0.25s;
+}
+.sk-item:hover .sk-label { opacity: 1; }
+
+/* ── WORLDBUILDING ──────────────────────── */
+.wb-wrap { padding: 56px 64px 80px; }
+.wb-yr-section { margin-bottom: 64px; }
+.wb-yr-head {
+  display: flex; align-items: center; gap: 22px;
+  margin-bottom: 28px;
+}
+.wb-yr-num {
+  font-family: var(--title);
+  font-size: 4rem; font-weight: 700;
+  color: rgba(139,26,26,0.13); line-height: 1;
+}
+.wb-yr-line { flex: 1; height: 1px; background: var(--border); }
+.wb-entries { display: flex; flex-direction: column; gap: 2px; }
+.wb-entry {
+  display: grid; grid-template-columns: 110px 1fr;
+  background: var(--bg2);
+  transition: background 0.18s; cursor: pointer;
+}
+.wb-entry:hover { background: var(--bg3); }
+.wb-side {
+  padding: 26px 18px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+}
+.wb-mon {
+  font-family: var(--title);
+  font-size: 1.25rem; font-weight: 500;
+  color: var(--red); line-height: 1;
+}
+.wb-day {
+  font-family: var(--mono); font-size: 0.6rem;
+  color: var(--muted); letter-spacing: 0.1em;
+}
+.wb-body { padding: 26px 30px; }
+.wb-tag {
+  display: inline-block;
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--red); padding: 3px 10px;
+  border: 1px solid rgba(139,26,26,0.22);
+  margin-bottom: 12px;
+}
+.wb-title {
+  font-family: var(--title);
+  font-size: 1.3rem; font-weight: 500; font-style: italic;
+  line-height: 1.35; color: var(--text); margin-bottom: 10px;
+}
+.wb-text {
+  font-family: var(--body);
+  font-size: 0.92rem; color: var(--text2); line-height: 1.8;
+}
+.wb-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+.wb-chip {
+  font-family: var(--mono); font-size: 0.58rem;
+  padding: 2px 8px; color: var(--muted);
+  background: rgba(255,255,255,0.02); letter-spacing: 0.08em;
+}
+
+/* ── GAMES ──────────────────────────────── */
+.games-wrap { padding: 56px 64px 80px; }
+.game-card { margin-bottom: 4px; background: var(--bg2); overflow: hidden; }
+.game-cover { position: relative; height: 280px; overflow: hidden; }
+.game-cover img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.28) saturate(0.55);
+  transition: filter 0.45s;
+}
+.game-card:hover .game-cover img { filter: brightness(0.38) saturate(0.7); }
+.game-cover-over {
+  position: absolute; inset: 0;
+  padding: 40px 48px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.gco-status {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 10px;
+}
+.gco-title {
+  font-family: var(--title);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700; line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+.game-body {
+  padding: 40px 48px;
+  display: grid; grid-template-columns: 1fr 210px; gap: 44px;
+}
+.gb-desc {
+  font-family: var(--body);
+  font-size: 1rem; color: var(--text2);
+  line-height: 1.9; margin-bottom: 22px;
+}
+.gb-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.gb-tag {
+  font-family: var(--mono); font-size: 0.6rem;
+  padding: 5px 14px; border: 1px solid var(--border);
+  color: var(--text2); letter-spacing: 0.1em;
+}
+.g-aside { border-left: 1px solid var(--border); padding-left: 30px; }
+.ga-lbl {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 12px;
+}
+.ga-feat {
+  font-family: var(--body); font-size: 0.88rem;
+  color: var(--text2); padding: 6px 0;
+  border-bottom: 1px solid rgba(139,26,26,0.07);
+}
+.ga-feat::before { content: '→ '; color: var(--red); font-family: var(--mono); }
+.ga-target { margin-top: 20px; }
+.ga-target strong {
+  display: block; font-family: var(--mono); font-size: 0.55rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 5px;
+}
+.ga-target span { font-family: var(--body); font-size: 0.9rem; color: var(--text2); }
+
+/* ── ABOUT ──────────────────────────────── */
+.about-wrap { padding: 56px 64px 80px; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.ab-full { grid-column: 1/-1; }
+.ab-block { background: var(--bg2); padding: 36px; }
+.ab-block-title {
+  font-family: var(--title);
+  font-size: 1.45rem; font-weight: 500;
+  color: var(--red); margin-bottom: 18px; line-height: 1;
+}
+.ab-p {
+  font-family: var(--body);
+  font-size: 1rem; color: var(--text2); line-height: 1.9;
+}
+.ab-p + .ab-p { margin-top: 12px; }
+.ab-p strong { color: var(--text); font-weight: 500; }
+.ab-tools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+.ab-tool {
+  font-family: var(--mono); font-size: 0.62rem;
+  padding: 5px 13px; border: 1px solid var(--border);
+  color: var(--text2); letter-spacing: 0.1em;
+}
+.tl { margin-top: 4px; }
+.tl-row { display: flex; gap: 18px; padding: 11px 0; border-bottom: 1px solid rgba(139,26,26,0.07); }
+.tl-yr { font-family: var(--title); font-size: 1.05rem; color: var(--red); min-width: 48px; }
+.tl-t { font-family: var(--body); font-size: 0.92rem; color: var(--text2); line-height: 1.65; padding-top: 2px; }
+
+/* ── LIGHTBOX ───────────────────────────── */
+.lb {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(8,6,6,0.96);
+  align-items: center; justify-content: center;
+}
+.lb.open { display: flex; animation: fadein 0.2s ease; }
+.lb img { max-width: 88vw; max-height: 88vh; object-fit: contain; }
+.lb-x {
+  position: absolute; top: 22px; right: 28px;
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.15em; color: var(--muted);
+  transition: color 0.18s;
+}
+.lb-x:hover { color: var(--red); }
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media (max-width: 980px) {
+  :root { --sidebar-w: 210px; }
+  .ph, .chron-feed, .chron-toolbar, .port-grid, .port-ctrl,
+  .sk-ctrl, .wb-wrap, .games-wrap, .about-wrap { padding-left: 36px; padding-right: 36px; }
+  #pg-home.active { padding: 60px 36px; }
+  .game-body { grid-template-columns: 1fr; }
+  .g-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 24px; }
+}
+@media (max-width: 680px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { display: none; }
+  .main { margin-left: 0; width: 100%; }
+  .sk-masonry { columns: 2 150px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .wb-entry { grid-template-columns: 80px 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <button class="lb-x" onclick="closeLB()">[ close ]</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sid-brand">
+    <div class="sid-label">Personal Archive</div>
+    <div class="sid-name">Ege Demir Ünal</div>
+    <div class="sid-handle">/ TETSUNARU</div>
+    <div class="sid-jp">鉄なる — 創造者</div>
+  </div>
+
+  <nav class="sid-nav">
+    <div class="sid-group">
+      <div class="sid-group-label">Index</div>
+      <button class="sid-btn on" data-p="home" onclick="go('home')">Home</button>
+      <button class="sid-btn" data-p="chronicle" onclick="go('chronicle')">Chronicle</button>
+    </div>
+    <div class="sid-group">
+      <div class="sid-group-label">Work</div>
+      <button class="sid-btn" data-p="portfolio" onclick="go('portfolio')">Portfolio</button>
+      <button class="sid-btn" data-p="sketches" onclick="go('sketches')">Sketches</button>
+      <button class="sid-btn" data-p="worldbuilding" onclick="go('worldbuilding')">Worldbuilding</button>
+      <button class="sid-btn" data-p="games" onclick="go('games')">Games</button>
+    </div>
+    <div class="sid-group">
+      <div class="sid-group-label">Info</div>
+      <button class="sid-btn" data-p="about" onclick="go('about')">About</button>
+    </div>
+  </nav>
+
+  <div class="sid-archive">
+    <div class="sid-archive-label">Archive by Year</div>
+    <div class="sid-years" id="yearList"></div>
+  </div>
+
+  <div class="sid-foot">
+    <p>Game Designer<br>Unreal Engine 5<br>Istanbul, TR — 2026</p>
+    <div class="sid-links">
+      <a href="https://x.com/TetsuUnaru" target="_blank">Twitter / X</a>
+      <a href="https://www.artstation.com/demirunal" target="_blank">ArtStation</a>
+      <a href="https://www.linkedin.com/in/egedemirunal/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HOME -->
+  <div class="page active" id="pg-home">
+    <div class="home-glow"></div>
+    <div class="home-eyebrow">Istanbul, Turkey — 2026</div>
+    <h1 class="home-name">
+      EGE<br>
+      <span class="dim">DEMIR</span><br>
+      <span class="acc">ÜNAL</span>
+    </h1>
+    <div class="home-jp">ゲームデザイナー　物語　世界</div>
+    <div class="home-rule"></div>
+    <p class="home-bio">
+      Game Designer &amp; worldbuilder. Building <strong>visceral, narrative-driven</strong> games
+      with Unreal Engine 5. Currently developing <strong>The Abyss</strong> —
+      a psychological horror anomaly game for Steam.
+    </p>
+    <div class="home-btns">
+      <button class="hbtn hbtn-p" onclick="go('chronicle')">Enter Archive</button>
+      <button class="hbtn hbtn-g" onclick="go('games')">Game Projects</button>
+      <button class="hbtn hbtn-g" onclick="go('worldbuilding')">Worldbuilding</button>
+    </div>
+    <div class="home-stats">
+      <div><div class="hstat-n">4</div><div class="hstat-l">Months to ship</div></div>
+      <div><div class="hstat-n">UE5</div><div class="hstat-l">Engine</div></div>
+      <div><div class="hstat-n">Solo</div><div class="hstat-l">Dev</div></div>
+    </div>
+  </div>
+
+  <!-- CHRONICLE -->
+  <div class="page" id="pg-chronicle">
+    <div class="ph">
+      <div class="ph-watermark">記録</div>
+      <div class="ph-eyebrow">Personal Archive</div>
+      <h2 class="ph-title">Chronicle</h2>
+      <p class="ph-sub">Everything in reverse order — art, sketches, devlog, thoughts, life.</p>
+    </div>
+    <div class="chron-toolbar">
+      <button class="cpill on" onclick="filterC('all',this)">All</button>
+      <button class="cpill" onclick="filterC('art',this)">Art</button>
+      <button class="cpill" onclick="filterC('sketch',this)">Sketch</button>
+      <button class="cpill" onclick="filterC('devlog',this)">Devlog</button>
+      <button class="cpill" onclick="filterC('worldbuilding',this)">Worldbuilding</button>
+      <button class="cpill" onclick="filterC('life',this)">Life</button>
+    </div>
+    <div class="chron-feed" id="cfeed"></div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="page" id="pg-portfolio">
+    <div class="ph">
+      <div class="ph-watermark">作品</div>
+      <div class="ph-eyebrow">Works</div>
+      <h2 class="ph-title">Portfolio</h2>
+      <p class="ph-sub">3D characters and concept art, filtered by year and category.</p>
+    </div>
+    <div class="port-ctrl">
+      <div class="year-row" id="portYears"></div>
+      <div class="cat-row" id="portCats"></div>
+    </div>
+    <div class="port-grid" id="portGrid"></div>
+  </div>
+
+  <!-- SKETCHES -->
+  <div class="page" id="pg-sketches">
+    <div class="ph">
+      <div class="ph-watermark">落書き</div>
+      <div class="ph-eyebrow">Raw Drawings</div>
+      <h2 class="ph-title">Sketches</h2>
+      <p class="ph-sub">Personal sketches and studies. No filter, no curation.</p>
+    </div>
+    <div class="sk-ctrl">
+      <div class="year-row" id="skYears"></div>
+    </div>
+    <div class="sk-masonry" id="skGrid"></div>
+  </div>
+
+  <!-- WORLDBUILDING -->
+  <div class="page" id="pg-worldbuilding">
+    <div class="ph">
+      <div class="ph-watermark">世界観</div>
+      <div class="ph-eyebrow">Lore & Stories</div>
+      <h2 class="ph-title">Worldbuilding</h2>
+      <p class="ph-sub">Characters, places, lore — archived by year.</p>
+    </div>
+    <div class="wb-wrap" id="wbContent"></div>
+  </div>
+
+  <!-- GAMES -->
+  <div class="page" id="pg-games">
+    <div class="ph">
+      <div class="ph-watermark">ゲーム</div>
+      <div class="ph-eyebrow">Game Development</div>
+      <h2 class="ph-title">Games</h2>
+      <p class="ph-sub">Solo and group projects. Unreal Engine 5.</p>
+    </div>
+    <div class="games-wrap" id="gContent"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" id="pg-about">
+    <div class="ph">
+      <div class="ph-watermark">自己</div>
+      <div class="ph-eyebrow">Profile</div>
+      <h2 class="ph-title">About</h2>
+      <p class="ph-sub">Designer, storyteller, worldbuilder.</p>
+    </div>
+    <div class="about-wrap">
+      <div class="about-grid">
+        <div class="ab-block ab-full">
+          <div class="ab-block-title">Who I Am</div>
+          <p class="ab-p">I'm <strong>Ege Demir Ünal</strong>, known online as <strong>Tetsunaru</strong>. Game Design student based in Istanbul, graduating June 2026.</p>
+          <p class="ab-p">I work at the intersection of storytelling and gameplay. My goal is to make games that feel alive — worlds with weight, mechanics that serve the narrative, and experiences that linger long after the screen goes dark.</p>
+          <p class="ab-p">Currently building <strong>The Abyss</strong>, a psychological horror anomaly game in Unreal Engine 5. This site is my personal archive — game projects, 3D work, sketches, and the worlds I build for no one but myself.</p>
+        </div>
+        <div class="ab-block">
+          <div class="ab-block-title">Tools</div>
+          <div class="ab-tools">
+            <span class="ab-tool">Unreal Engine 5</span>
+            <span class="ab-tool">Blueprint</span>
+            <span class="ab-tool">Blender</span>
+            <span class="ab-tool">ZBrush</span>
+            <span class="ab-tool">Maya</span>
+            <span class="ab-tool">Substance Painter</span>
+            <span class="ab-tool">Obsidian</span>
+            <span class="ab-tool">HacknPlan</span>
+          </div>
+        </div>
+        <div class="ab-block">
+          <div class="ab-block-title">Timeline</div>
+          <div class="tl">
+            <div class="tl-row"><div class="tl-yr">2024</div><div class="tl-t">Built Exit 8 clone in Unreal Engine. First complete Blueprint project, self-taught from scratch.</div></div>
+            <div class="tl-row"><div class="tl-yr">2025</div><div class="tl-t">Pivoted from pure 3D art to Game Design. Started The Abyss.</div></div>
+            <div class="tl-row"><div class="tl-yr">2026</div><div class="tl-t">Final year. Shipping The Abyss on Steam. Targeting Gameplay Designer roles.</div></div>
+            <div class="tl-row"><div class="tl-yr">→</div><div class="tl-t">Post-grad: indie studio, shipped titles, CDPR long-term goal.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+/* ── DATA ─────────────────────────────── */
+const cData = [
+  { id:1, year:2026, date:"2026.03.07", cat:"devlog", title:"The Abyss — Day 1 begins",
+    body:"Character sprint + FOV shift system blocked out. The loop structure is loading correctly. Footstep audio placeholder in. Everything feels heavier than the Exit 8 clone — which is exactly right.", imgs:[], layout:"g1", tags:["the-abyss","UE5","devlog"] },
+  { id:2, year:2026, date:"2026.02.20", cat:"art", title:"Character study — anomaly figures",
+    body:"Trying to nail the visual language of something being almost-right. The uncanny valley expressed through form.",
+    imgs:["https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800&h=1000&fit=crop","https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=600&h=800&fit=crop"],
+    layout:"g2", tags:["characters","horror","concept"] },
+  { id:3, year:2026, date:"2026.01.15", cat:"life", title:"Rearranged the workspace",
+    body:"Desk is completely clear. Wall one now has the 90-day calendar. Wall two has The Abyss concept sketches. Phone is on the bookshelf. The room feels different when it's a place to work, not a place to consume.", imgs:[], layout:"g1", tags:["life","workspace","discipline"] },
+  { id:4, year:2025, date:"2025.11.08", cat:"sketch", title:"November sketches",
+    body:"",
+    imgs:["https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=700&fit=crop","https://images.unsplash.com/photo-1544986581-efac024faf62?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=500&h=640&fit=crop"],
+    layout:"g3", tags:["sketches","characters","studies"] },
+  { id:5, year:2025, date:"2025.09.22", cat:"worldbuilding", title:"The Aethermoor Chronicles — first notes",
+    body:"First proper session writing lore for the world I've been building since 2023. The floating islands system works if I treat gravity as a negotiable agreement rather than a physical law.", imgs:[], layout:"g1", tags:["aethermoor","lore","worldbuilding"] },
+  { id:6, year:2025, date:"2025.07.03", cat:"art", title:"Shadow Assassin — 3D complete",
+    body:"Game-ready mesh. 64k polys in ZBrush, baked to 4k. Substance Painter textures. Rigged in Maya.",
+    imgs:["https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=1050&fit=crop"],
+    layout:"g1", tags:["3D","character","game-ready"] },
+  { id:7, year:2025, date:"2025.04.18", cat:"sketch", title:"Spring gesture drawings",
+    body:"30 minute sessions every morning before school for two weeks straight.",
+    imgs:["https://images.unsplash.com/photo-1517022812141-23620dba5c23?w=500&h=650&fit=crop","https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=600&h=380&fit=crop"],
+    layout:"g2", tags:["gesture","anatomy","study"] },
+  { id:8, year:2024, date:"2024.12.14", cat:"devlog", title:"Exit 8 clone — shipped",
+    body:"First complete Unreal Engine project. Blueprint only, no C++. Built entirely from tutorial videos and documentation. It runs, it loops, the anomaly detection works. Rough around every edge, but it is done.", imgs:[], layout:"g1", tags:["unreal","exit8","first-project"] },
+  { id:9, year:2024, date:"2024.08.30", cat:"art", title:"Flame Guardian — concept to 3D",
+    body:"The design started as a quick Tuesday sketch. Three weeks later it has a game-ready mesh.",
+    imgs:["https://images.unsplash.com/photo-1601814933824-fd0b574dd592?w=700&h=950&fit=crop"],
+    layout:"g1", tags:["3D","character","concept"] },
+  { id:10, year:2024, date:"2024.05.12", cat:"sketch", title:"Random pages — spring 2024",
+    body:"",
+    imgs:["https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=380&fit=crop","https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=450&h=540&fit=crop","https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&h=640&fit=crop","https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=700&h=950&fit=crop"],
+    layout:"gm", tags:["sketches","misc"] }
+];
+
+const portData = [
+  { id:1, title:"Crimson Warrior", cat:"Game Character", year:2026, tags:["3D","Texturing","Game Ready"], img:"https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=600&h=750&fit=crop" },
+  { id:2, title:"Azure Mage", cat:"Character Design", year:2026, tags:["Modeling","Rigging"], img:"https://images.unsplash.com/photo-1618519764620-7403abdbdfe9?w=600&h=750&fit=crop" },
+  { id:3, title:"Shadow Assassin", cat:"Game Character", year:2025, tags:["Modeling","Animation","Game Ready"], img:"https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=750&fit=crop" },
+  { id:4, title:"Sakura Knight", cat:"Character Design", year:2025, tags:["3D Modeling","Concept Art"], img:"https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&h=750&fit=crop" },
+  { id:5, title:"Neon Hero", cat:"Game Character", year:2025, tags:["Shader","Game Ready"], img:"https://images.unsplash.com/photo-1536329583941-14287ec6fc4e?w=600&h=750&fit=crop" },
+  { id:6, title:"Moonlight Archer", cat:"Character Design", year:2024, tags:["Rigging","Animation"], img:"https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=750&fit=crop" },
+  { id:7, title:"Storm Elementalist", cat:"Game Character", year:2024, tags:["3D","VFX"], img:"https://images.unsplash.com/photo-1542332213-31f87348057f?w=600&h=750&fit=crop" },
+  { id:8, title:"Flame Guardian", cat:"Character Design", year:2024, tags:["Texturing","Concept to 3D"], img:"https://images.unsplash.com/photo-1601814933824-fd0b574dd592?w=600&h=750&fit=crop" }
+];
+
+const skData = [
+  { year:2026, lbl:"2026.02 — figure study", img:"https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=700&fit=crop" },
+  { year:2026, lbl:"2026.02 — loose form", img:"https://images.unsplash.com/photo-1544986581-efac024faf62?w=600&h=380&fit=crop" },
+  { year:2026, lbl:"2026.01 — environment", img:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=500&h=640&fit=crop" },
+  { year:2025, lbl:"2025.11 — anatomy", img:"https://images.unsplash.com/photo-1517022812141-23620dba5c23?w=500&h=640&fit=crop" },
+  { year:2025, lbl:"2025.04 — gesture", img:"https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=600&h=360&fit=crop" },
+  { year:2025, lbl:"2025.03 — doodle", img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=380&fit=crop" },
+  { year:2024, lbl:"2024.09 — portrait", img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=580&fit=crop" },
+  { year:2024, lbl:"2024.05 — character", img:"https://images.unsplash.com/photo-1536329583941-14287ec6fc4e?w=600&h=760&fit=crop" },
+  { year:2024, lbl:"2024.02 — study", img:"https://images.unsplash.com/photo-1542332213-31f87348057f?w=500&h=420&fit=crop" }
+];
+
+const wbData = [
+  { year:2025, mon:"SEP", day:"22", tag:"Lore", title:"The Aethermoor Chronicles — Origin Myth", text:"In the age before the Islands rose, there was only the Grey Sea and the Drift. When the first mages learned to negotiate with gravity, they did not defy it — they asked it to pause.", chips:["Aethermoor","Lore","Magic System"] },
+  { year:2025, mon:"JAN", day:"10", tag:"Character", title:"Crimson Warrior — full character sheet", text:"The design started as a need: someone who has fought gravity and won. The red is not blood — it's the residue of heat-touched metal when you've been to the forge so many times your skin forgets.", chips:["Character","Design Notes"] },
+  { year:2024, mon:"DEC", day:"20", tag:"Place", title:"The Azure Kingdom — cartography notes", text:"A kingdom that floats in the lower Drift, permanently overcast. The Azure comes not from the sky but from the bioluminescent moss covering every stone surface after decades of moisture.", chips:["World Lore","Geography","Magic"] },
+  { year:2024, mon:"NOV", day:"15", tag:"Faction", title:"The Shadow Guild — founding document (in-world)", text:"We do not trade in secrets. We trade in the space between what is known and what must never be found.", chips:["Faction","Story","Politics"] },
+  { year:2024, mon:"AUG", day:"14", tag:"Event", title:"The Moonlight Covenant — what actually happens", text:"Every full moon, two things are true at once: the pact is renewed, and it is also broken. This is not a contradiction. It is the mechanism.", chips:["Event","Mythology","Cosmic"] }
+];
+
+const gamesData = [
+  { title:"The Abyss", status:"In Development — Solo", engine:"Unreal Engine 5",
+    desc:"A first-person psychological horror anomaly game. You are trapped in a looping abandoned facility — each iteration is subtly wrong. Find what changed. Don't look too long at the things that are almost right.",
+    tags:["Horror","First-Person","Anomaly","Solo Dev","Steam"],
+    feats:["Sprint + slide system","Flashlight mechanic","Door interaction","Object examination","Persistent fear state","Volumetric atmospheric fog"],
+    target:"Steam — June 2026",
+    img:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=900&h=500&fit=crop" },
+  { title:"Group Project — Game 2", status:"In Development — Team", engine:"Unreal Engine 5",
+    desc:"4-person school project. All Unreal Engine work and gameplay programming handled solo. Concept and scope currently being defined.",
+    tags:["School","Group","UE5"],
+    feats:["TBD"],
+    target:"June 2026",
+    img:"https://images.unsplash.com/photo-1536329583941-14287ec6fc4e?w=900&h=500&fit=crop" }
+];
+
+/* ── YEAR ARCHIVE ─────────────────────── */
+function buildYears() {
+  const years = [...new Set(cData.map(d=>d.year))].sort((a,b)=>b-a);
+  document.getElementById('yearList').innerHTML = years.map(y => {
+    const n = cData.filter(d=>d.year===y).length;
+    return `<div class="sid-year" onclick="jumpYear(${y})">
+      <span class="sy-n">${y}</span>
+      <span class="sy-c">${n} entries</span>
+    </div>`;
+  }).join('');
+}
+
+function jumpYear(y) {
+  go('chronicle');
+  activeYear = y;
+  activeCat = 'all';
+  document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('on'));
+  renderC();
+}
+
+/* ── NAV ─────────────────────────────── */
+function go(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sid-btn').forEach(b=>b.classList.remove('on'));
+  const pg = document.getElementById('pg-'+name);
+  if (pg) pg.classList.add('active');
+  const btn = document.querySelector(`[data-p="${name}"]`);
+  if (btn) btn.classList.add('on');
+  window.scrollTo(0,0);
+}
+
+/* ── CHRONICLE ───────────────────────── */
+let activeCat='all', activeYear=null;
+
+function filterC(cat, btn) {
+  activeCat=cat; activeYear=null;
+  document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  renderC();
+}
+
+function renderC() {
+  let d = [...cData];
+  if (activeYear) d = d.filter(x=>x.year===activeYear);
+  if (activeCat!=='all') d = d.filter(x=>x.cat===activeCat);
+  d.sort((a,b)=>b.date.localeCompare(a.date));
+  const feed = document.getElementById('cfeed');
+  if (!d.length) { feed.innerHTML=`<p style="padding:60px 0;font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.2em">— no entries —</p>`; return; }
+  feed.innerHTML = d.map(e=>`
+    <div class="ce">
+      <div class="ce-top">
+        <span class="ce-date">${e.date}</span>
+        <div class="ce-sep"></div>
+        <span class="ce-cat">${e.cat}</span>
+      </div>
+      ${e.title?`<div class="ce-title">${e.title}</div>`:''}
+      ${e.body?`<p class="ce-body">${e.body}</p>`:''}
+      ${e.imgs.length?`<div class="ce-imgs ${e.layout}">${e.imgs.map(i=>`<div class="ci" onclick="openLB('${i}')"><img src="${i}" alt="" loading="lazy"></div>`).join('')}</div>`:''}
+      ${e.tags.length?`<div class="ce-tags">${e.tags.map(t=>`<span class="ce-tag">#${t}</span>`).join('')}</div>`:''}
+    </div>`).join('');
+}
+
+/* ── PORTFOLIO ───────────────────────── */
+let pY='all', pC='all';
+function renderPort() {
+  const yrs=['all',...new Set(portData.map(p=>p.year).sort((a,b)=>b-a))];
+  const cats=['all',...new Set(portData.map(p=>p.cat))];
+  document.getElementById('portYears').innerHTML=yrs.map(y=>`<button class="yr-btn ${pY==y?'on':''}" onclick="pSetY('${y}')">${y==='all'?'All':y}</button>`).join('');
+  document.getElementById('portCats').innerHTML=cats.map(c=>`<button class="cat-btn ${pC==c?'on':''}" onclick="pSetC('${c}')">${c==='all'?'All':c}</button>`).join('');
+  const f=portData.filter(p=>(pY==='all'||p.year==pY)&&(pC==='all'||p.cat===pC));
+  document.getElementById('portGrid').innerHTML=f.map(p=>`
+    <div class="pcard" onclick="openLB('${p.img}')">
+      <img src="${p.img}" alt="${p.title}" loading="lazy">
+      <div class="pcard-yr">${p.year}</div>
+      <div class="pcard-info">
+        <div class="pcard-cat">${p.cat}</div>
+        <div class="pcard-title">${p.title}</div>
+        <div class="pcard-tags">${p.tags.map(t=>`<span class="pcard-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+function pSetY(y){pY=y;renderPort();}
+function pSetC(c){pC=c;renderPort();}
+
+/* ── SKETCHES ────────────────────────── */
+let sY='all';
+function renderSk() {
+  const yrs=['all',...new Set(skData.map(s=>s.year).sort((a,b)=>b-a))];
+  document.getElementById('skYears').innerHTML=yrs.map(y=>`<button class="yr-btn ${sY==y?'on':''}" onclick="sSetY('${y}')">${y==='all'?'All':y}</button>`).join('');
+  const f=skData.filter(s=>sY==='all'||s.year==sY);
+  document.getElementById('skGrid').innerHTML=f.map(s=>`
+    <div class="sk-item" onclick="openLB('${s.img}')">
+      <img src="${s.img}" alt="${s.lbl}" loading="lazy">
+      <div class="sk-label">${s.lbl}</div>
+    </div>`).join('');
+}
+function sSetY(y){sY=y;renderSk();}
+
+/* ── WORLDBUILDING ───────────────────── */
+function renderWB() {
+  const yrs=[...new Set(wbData.map(w=>w.year).sort((a,b)=>b-a))];
+  document.getElementById('wbContent').innerHTML=yrs.map(yr=>`
+    <div class="wb-yr-section">
+      <div class="wb-yr-head">
+        <div class="wb-yr-num">${yr}</div>
+        <div class="wb-yr-line"></div>
+      </div>
+      <div class="wb-entries">
+        ${wbData.filter(w=>w.year===yr).map(w=>`
+          <div class="wb-entry">
+            <div class="wb-side">
+              <div class="wb-mon">${w.mon}</div>
+              <div class="wb-day">${w.day}</div>
+            </div>
+            <div class="wb-body">
+              <span class="wb-tag">${w.tag}</span>
+              <div class="wb-title">${w.title}</div>
+              <div class="wb-text">${w.text}</div>
+              <div class="wb-chips">${w.chips.map(c=>`<span class="wb-chip">${c}</span>`).join('')}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+/* ── GAMES ───────────────────────────── */
+function renderGames() {
+  document.getElementById('gContent').innerHTML=gamesData.map(g=>`
+    <div class="game-card">
+      <div class="game-cover">
+        <img src="${g.img}" alt="${g.title}">
+        <div class="game-cover-over">
+          <div class="gco-status">${g.status} — ${g.engine}</div>
+          <div class="gco-title">${g.title}</div>
+        </div>
+      </div>
+      <div class="game-body">
+        <div>
+          <p class="gb-desc">${g.desc}</p>
+          <div class="gb-tags">${g.tags.map(t=>`<span class="gb-tag">${t}</span>`).join('')}</div>
+        </div>
+        <div class="g-aside">
+          <div class="ga-lbl">Features</div>
+          ${g.feats.map(f=>`<div class="ga-feat">${f}</div>`).join('')}
+          <div class="ga-target">
+            <strong>Target Release</strong>
+            <span>${g.target}</span>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── LIGHTBOX ────────────────────────── */
+function openLB(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');}
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.getElementById('lb').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLB();});
+
+/* ── INIT ────────────────────────────── */
+buildYears();
+renderC();
+renderPort();
+renderSk();
+renderWB();
+renderGames();
+</script>
+</body>
+</html>
